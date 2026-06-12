@@ -45,6 +45,11 @@ if 'selected_indicator' not in st.session_state:
 
 st.title('NOF Overview and Trend Visualisations')
 
+if st.session_state.get('page') == 'chart':
+    if st.button('← Back to indicator list'):
+        st.session_state.page = 'table'
+        st.rerun()
+
 trust_lookup = (
     df[['Trust_name', 'Trust_code', '_sector']]
     .drop_duplicates(subset=['Trust_name'])
@@ -81,10 +86,6 @@ q4_trust_indicators = trust_df[
 all_indicators = sorted(q4_trust_indicators['Metric_description'].unique().tolist())
 
 if st.session_state.page == 'chart':
-    if st.button('← Back to indicator list'):
-        st.session_state.page = 'table'
-        st.rerun()
-
     st.markdown('**Select an indicator to view its trend chart**')
     chart_selected = st.selectbox(
         label='Select an indicator to view its trend chart',
