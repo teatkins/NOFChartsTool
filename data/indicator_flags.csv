@@ -1,0 +1,27 @@
+Metric_ID,Metric_description,Units,sector,flip_scale,flip_inferred
+OF0041,Annual change in the number of children and young people accessing NHS-funded MH services,percentage points,acute,0,yes
+OF0017,Average Category 2 ambulance response time,mins,acute,1,no - check manually
+OF0025,Average number of days from discharge ready date to actual discharge date (including zero days),days,acute,1,yes
+OF0106,Difference between planned and actual 18 week performance,percentage points,acute,0,yes
+OF0085,Implied productivity level,%,acute,0,yes
+OF0061,NHS Staff survey - raising concerns sub-score,out of 10,acute,0,yes
+OF0084,NHS staff survey engagement theme sub-score ,out of 10,acute,0,yes
+OF0020,Number of MRSA bacteraemia cases (12 months),count,acute,1,yes
+OF0028,Percentage of ambulance patients conveyed to emergency departments,%,acute,1,no - check manually
+OF0023,Percentage of cases where a patient is waiting 18 weeks or less for elective treatment,%,acute,0,yes
+OF0013,"Percentage of emergency department attendances admitted, transferred or discharged within four hours",%,acute,0,yes
+OF0014,Percentage of emergency department attendances spending over 12 hours in the department,%,acute,1,yes
+OF0063,Percentage of inpatients with >60 day length of stay,%,acute,1,no - check manually
+OF0016,Percentage of patients in mental health crisis to receive face-to-face contact within 24 hours,%,acute,0,yes
+OF0011,Percentage of patients treated for cancer within 62 days of referral,%,acute,0,yes
+OF0005,Percentage of patients waiting over 52 weeks for community services,%,acute,1,yes
+OF0003,Percentage of patients waiting over 52 weeks for elective treatment,%,acute,1,yes
+OF0010,Percentage of patients with cancer diagnosed or ruled out within 28 days of an urgent referral,%,acute,0,yes
+OF0079,Planned surplus/deficit,%,acute,0,yes
+OF0088,Proportion of C. difficile infections,rate,acute,1,yes
+OF0048,Proportion of E. coli bacteraemia,rate,acute,1,yes
+OF0082,Sickness absence rate,%,acute,1,yes
+OF0057,Urgent Community Response 2-hour performance,%,acute,0,yes
+OF0081,Variance year-to-date to financial plan,%,acute,0,yes
+OF0047,NHS staff survey advocacy score,out of 10,ambulance,0,yes
+OF0086,Relative difference in costs,%,mhcom,1,yes
