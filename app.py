@@ -40,6 +40,8 @@ if 'page' not in st.session_state:
     st.session_state.page = 'table'
 if 'selected_indicator' not in st.session_state:
     st.session_state.selected_indicator = None
+if 'table_key' not in st.session_state:
+    st.session_state.table_key = 0
 
 # ── 5. Header & trust selector ────────────────────────────────────────────────
 
@@ -49,7 +51,7 @@ if st.session_state.get('page') == 'chart':
     if st.button('← Back to indicator list'):
         st.session_state.page = 'table'
         st.session_state.selected_indicator = None
-        st.session_state.pop('indicator_selector', None)
+        st.session_state.table_key += 1
         st.rerun()
 
 trust_lookup = (
@@ -249,7 +251,7 @@ selected = st.selectbox(
     options=["— select —"] + all_indicators,
     index=0,
     label_visibility="collapsed",
-    key="indicator_selector"
+    key=f"indicator_selector_{st.session_state.table_key}"
 )
 if selected != "— select —":
     st.session_state.selected_indicator = selected
