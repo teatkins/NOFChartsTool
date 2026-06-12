@@ -73,13 +73,32 @@ def score_colour(score):
 # PAGE: CHART
 # ══════════════════════════════════════════════════════════════════════════════
 
-if st.session_state.page == 'chart':
-    indicator = st.session_state.selected_indicator
+# Build indicator list here so it's available on both pages
+q4_trust_indicators = trust_df[
+    (trust_df['Quarter'] == LATEST_QUARTER) &
+    (~trust_df['Units'].isin(EXCLUDED_UNITS))
+]
+all_indicators = sorted(q4_trust_indicators['Metric_description'].unique().tolist())
 
+if st.session_state.page == 'chart':
     if st.button('← Back to indicator list'):
         st.session_state.page = 'table'
         st.rerun()
 
+    st.markdown('**Select an indicator to view its trend chart**')
+    chart_selected = st.selectbox(
+        label='Select an indicator to view its trend chart',
+        options=['— select —'] + all_indicators,
+        index=(['— select —'] + all_indicators).index(st.session_state.selected_indicator)
+              if st.session_state.selected_indicator in all_indicators else 0,
+        label_visibility='collapsed',
+        key='indicator_selector'
+    )
+    if chart_selected != '— select —' and chart_selected != st.session_state.selected_indicator:
+        st.session_state.selected_indicator = chart_selected
+        st.rerun()
+
+    indicator = st.session_state.selected_indicator
     st.subheader(indicator)
 
     chart_df = sector_df[
@@ -224,7 +243,7 @@ all_rows = rows + summary_rows
 st.markdown("**Select an indicator to view its trend chart**")
 selected = st.selectbox(
     label="Select an indicator to view its trend chart",
-    options=["— select —"] + [r["indicator"] for r in rows],
+    options=["— select —"] + all_indicators,
     label_visibility="collapsed",
     key="indicator_selector"
 )
