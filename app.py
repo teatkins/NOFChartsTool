@@ -48,6 +48,8 @@ st.title('NOF Overview and Trend Visualisations')
 if st.session_state.get('page') == 'chart':
     if st.button('← Back to indicator list'):
         st.session_state.page = 'table'
+        st.session_state.selected_indicator = None
+        st.session_state.pop('indicator_selector', None)
         st.rerun()
 
 trust_lookup = (
@@ -245,6 +247,7 @@ st.markdown("**Select an indicator to view its trend chart**")
 selected = st.selectbox(
     label="Select an indicator to view its trend chart",
     options=["— select —"] + all_indicators,
+    index=0,
     label_visibility="collapsed",
     key="indicator_selector"
 )
