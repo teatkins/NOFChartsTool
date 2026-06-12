@@ -60,8 +60,16 @@ trust_lookup = (
     .set_index('Trust_name')
 )
 
+trust_options = sorted(trust_lookup.index)
+
+# Restore trust selection after back navigation
+if 'current_trust' not in st.session_state:
+    st.session_state.current_trust = trust_options[0]
+trust_index = trust_options.index(st.session_state.current_trust) if st.session_state.current_trust in trust_options else 0
+
 st.markdown('**Select a trust**')
-trust_name = st.selectbox('Select a trust', sorted(trust_lookup.index), label_visibility='collapsed', key='trust_selector')
+trust_name = st.selectbox('Select a trust', trust_options, index=trust_index, label_visibility='collapsed', key='trust_selector')
+st.session_state.current_trust = trust_name
 trust_code = trust_lookup.loc[trust_name, 'Trust_code']
 sector     = trust_lookup.loc[trust_name, '_sector']
 sector_df  = df[df['_sector'] == sector]
