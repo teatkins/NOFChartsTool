@@ -37,6 +37,50 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# The indicator table is built from many separate row-level elements (each
+# row pairs an HTML block with a real st.button side by side, so clicks work
+# reliably -- see project notes), which makes a single synchronised
+# horizontal scroll across the whole table impractical. A phone in portrait
+# is simply too narrow for the row's six fixed-width data columns plus a
+# readable indicator name, so rather than fight that, prompt for landscape
+# instead. Pure CSS (a fixed full-viewport overlay + a media query keyed on
+# orientation and a phone-width cutoff) -- no JS, so it degrades safely if
+# it doesn't apply: worst case is just the normal (squeezed) table, not a
+# blank page. The 600px cutoff targets phone portrait widths specifically
+# (most run 360-430px) without catching tablets in portrait, which are
+# usually wide enough already.
+st.markdown(
+    """
+    <style>
+    .nof-rotate-overlay { display: none; }
+    @media (orientation: portrait) and (max-width: 600px) {
+        .nof-rotate-overlay {
+            display: flex;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: white;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        }
+    }
+    </style>
+    <div class="nof-rotate-overlay">
+        <div style="font-size:48px;">📱↻</div>
+        <div style="font-size:18px; font-weight:600; margin-top:1rem;">Please rotate your device</div>
+        <div style="color:#666; margin-top:0.5rem; max-width:280px;">
+            This app's table needs a bit more width than portrait mode allows —
+            turn your phone sideways to view it.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 @st.cache_data
 def load_data():
