@@ -19,7 +19,9 @@ and it renders its own hover tooltip via `help=`.
 import html
 import pandas as pd
 
-from data_logic import score_band_colour, apply_units_override, sector_value_range, chart_status
+from data_logic import (
+    score_band_colour, apply_units_override, sector_value_range, sector_rank_count, chart_status,
+)
 
 STATUS_TITLES = {
     'eligible': 'Click to see trend chart',
@@ -27,7 +29,7 @@ STATUS_TITLES = {
     'no_value': 'No trend chart for metrics without indicator values',
 }
 
-GRID_TEMPLATE = "minmax(0,3fr) 70px 70px 60px 110px 60px 60px"
+GRID_TEMPLATE = "minmax(0,3fr) 70px 70px 80px 110px 60px 60px"
 
 STYLE = """
 <style>
@@ -169,7 +171,11 @@ def render_row_html(entry, prev_entry, sector_df, this_q, status, row_class=''):
     units = apply_units_override(entry['metric_id'], entry['units'])
     value_str = _fmt_value(entry['value'], units)
     delta_val = _fmt_delta(entry['value'], prev_entry['value'] if prev_entry else None, units)
-    rank_str = f"{int(entry['rank'])}" if entry['rank'] is not None and not pd.isna(entry['rank']) else '—'
+    if entry['rank'] is not None and not pd.isna(entry['rank']):
+        n_ranked = sector_rank_count(sector_df, entry['metric_id'], this_q)
+        rank_str = f"{int(entry['rank'])} / {n_ranked}" if n_ranked else f"{int(entry['rank'])}"
+    else:
+        rank_str = '—'
     min_v, max_v = sector_value_range(sector_df, entry['metric_id'], this_q) if entry['value'] is not None else (None, None)
     dist_svg = _distribution_svg(entry['value'], entry['lower_q'], entry['upper_q'], min_v, max_v)
     score_badge = _score_badge(entry['score'])

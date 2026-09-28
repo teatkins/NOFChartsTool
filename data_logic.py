@@ -400,6 +400,21 @@ def build_domain_items(entries, domain):
     return items
 
 
+def sector_rank_count(sector_df, metric_id, this_q):
+    """
+    Number of trusts ranked on this metric in this sector and quarter -- the
+    "out of" for a Rank. Ranks are within sector/quarter/metric, and ties
+    share the best position (1, 2, 2, 2, 5, ...), so when the bottom of the
+    table is tied the highest rank is LOWER than the number of trusts
+    ranked (e.g. 97 vs 126 in one acute indicator). That's why this counts
+    ranked rows rather than taking max(Rank). Verified against the data:
+    for every metric/sector/quarter either all trusts with a row are ranked
+    or none are, and value and score rows agree.
+    """
+    d = sector_df[(sector_df['Metric_ID'] == metric_id) & (sector_df['Quarter'] == this_q)]
+    return int(d['Rank'].notna().sum())
+
+
 def sector_value_range(sector_df, metric_id, this_q):
     """Min/max of this metric's raw Value across every trust in the sector
     this quarter -- used for the compact 'sector distribution' bar."""
